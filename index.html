@@ -12,7 +12,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      background-color: #fff;
+      background-color: #ADD8E6;
       font-family: Arial, sans-serif;
     }
 
@@ -35,9 +35,21 @@
       margin: 1rem 0;
       display: block;
     }
+
+    .beam {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, transparent, #FFD700, #FFA500, #FFD700, transparent);
+      transform: translateY(-50%);
+      box-shadow: 0 0 18px 4px rgba(255, 200, 0, 0.6);
+    }
   </style>
 </head>
 <body>
+  <div class="beam"></div>
   <h1>My first Page</h1>
   <hr>
   <h2>yeeeee</h2>
