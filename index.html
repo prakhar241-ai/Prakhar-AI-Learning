@@ -65,6 +65,24 @@
 
     .wiki-link:hover { background-color: rgba(255,255,255,0.25); }
 
+    .sound-btn {
+      position: fixed;
+      top: 16px;
+      left: 20px;
+      color: #ffffff;
+      background-color: rgba(0,0,0,0.4);
+      border: 2px solid #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: background-color 0.2s;
+    }
+    .sound-btn:hover { background-color: rgba(255,255,255,0.25); }
+    .sound-btn.on { background-color: rgba(255,100,150,0.6); border-color: #FFD93D; }
+
     .boy-wrapper { margin-bottom: 20px; }
 
     @keyframes headBob {
@@ -102,6 +120,7 @@
 <body>
 
   <a class="wiki-link" href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
+  <button class="sound-btn" id="soundBtn" onclick="toggleSound()">🔇 Sound OFF</button>
 
   <div class="boy-wrapper" style="animation: bounce 2s ease-in-out infinite;">
     <svg width="340" height="460" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
@@ -263,6 +282,80 @@
   <h1>My first Page</h1>
   <h2>yeeeee</h2>
   <p class="name">Prakhar</p>
+
+  <script>
+    let audioCtx = null;
+    let soundEnabled = false;
+    let eatInterval = null;
+
+    function getCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+
+    function playNom() {
+      const ctx = getCtx();
+
+      // "Nom" — short descending tone (mouth closing on ice cream)
+      const osc1 = ctx.createOscillator();
+      const g1   = ctx.createGain();
+      osc1.connect(g1); g1.connect(ctx.destination);
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(520, ctx.currentTime);
+      osc1.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.18);
+      g1.gain.setValueAtTime(0.35, ctx.currentTime);
+      g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+      osc1.start(ctx.currentTime);
+      osc1.stop(ctx.currentTime + 0.2);
+
+      // "Crunch" — quick burst of filtered noise
+      const bufSize = ctx.sampleRate * 0.12;
+      const buf  = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = buf.getChannelData(0);
+      for (let i = 0; i < bufSize; i++) data[i] = Math.random() * 2 - 1;
+      const noise  = ctx.createBufferSource();
+      const filter = ctx.createBiquadFilter();
+      const g2     = ctx.createGain();
+      noise.buffer = buf;
+      filter.type = 'bandpass';
+      filter.frequency.value = 900;
+      filter.Q.value = 0.8;
+      noise.connect(filter); filter.connect(g2); g2.connect(ctx.destination);
+      g2.gain.setValueAtTime(0.18, ctx.currentTime + 0.05);
+      g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.17);
+      noise.start(ctx.currentTime + 0.05);
+      noise.stop(ctx.currentTime + 0.18);
+
+      // "Mmm" — happy hum after eating
+      const osc2 = ctx.createOscillator();
+      const g3   = ctx.createGain();
+      osc2.connect(g3); g3.connect(ctx.destination);
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(220, ctx.currentTime + 0.22);
+      osc2.frequency.setValueAtTime(260, ctx.currentTime + 0.32);
+      osc2.frequency.setValueAtTime(220, ctx.currentTime + 0.42);
+      g3.gain.setValueAtTime(0.12, ctx.currentTime + 0.22);
+      g3.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      osc2.start(ctx.currentTime + 0.22);
+      osc2.stop(ctx.currentTime + 0.5);
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('soundBtn');
+      if (soundEnabled) {
+        btn.textContent = '🔊 Nom Nom!';
+        btn.classList.add('on');
+        playNom();
+        eatInterval = setInterval(playNom, 900);
+      } else {
+        btn.textContent = '🔇 Sound OFF';
+        btn.classList.remove('on');
+        clearInterval(eatInterval);
+        eatInterval = null;
+      }
+    }
+  </script>
 
 </body>
 </html>
