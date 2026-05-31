@@ -12,11 +12,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      background-image: url('mahatma_gandhi.PNG');
-      background-size: cover;
-      background-position: top center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
       font-family: Arial, sans-serif;
     }
 
@@ -24,22 +20,22 @@
       font-size: 3rem;
       margin-bottom: 0.5rem;
       color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3);
     }
 
     h2 {
       font-size: 1.8rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.3);
     }
 
     .name {
       font-size: 1.4rem;
       font-weight: bold;
       color: #ffffff;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
-      margin-top: 1rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      margin-top: 0.5rem;
       letter-spacing: 2px;
     }
 
@@ -48,7 +44,7 @@
       top: 16px;
       right: 20px;
       color: #ffffff;
-      background-color: rgba(0,0,0,0.55);
+      background-color: rgba(0,0,0,0.4);
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: bold;
@@ -62,12 +58,151 @@
     .wiki-link:hover {
       background-color: rgba(255,255,255,0.25);
     }
+
+    /* ── Boy container ── */
+    .boy-wrapper {
+      margin-bottom: 24px;
+    }
+
+    /* Head bob */
+    @keyframes headBob {
+      0%, 100% { transform: rotate(0deg); }
+      50%       { transform: rotate(-8deg); }
+    }
+
+    /* Arm eating motion */
+    @keyframes eatArm {
+      0%, 100% { transform: rotate(-30deg); }
+      50%       { transform: rotate(-55deg); }
+    }
+
+    /* Ice cream drip */
+    @keyframes drip {
+      0%        { height: 0px; opacity: 1; }
+      80%       { height: 14px; opacity: 1; }
+      100%      { height: 14px; opacity: 0; }
+    }
+
+    /* Tongue lick */
+    @keyframes lick {
+      0%, 40%, 100% { transform: translateY(0); }
+      60%            { transform: translateY(-6px); }
+    }
+
+    /* Scoop wobble */
+    @keyframes wobble {
+      0%, 100% { transform: translateX(0); }
+      25%       { transform: translateX(-3px); }
+      75%       { transform: translateX(3px); }
+    }
   </style>
 </head>
 <body>
+
   <a class="wiki-link" href="https://www.wikipedia.org" target="_blank">Wikipedia</a>
+
+  <!-- Animated Boy SVG -->
+  <div class="boy-wrapper">
+    <svg width="200" height="280" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Shadow -->
+      <ellipse cx="100" cy="268" rx="38" ry="8" fill="rgba(0,0,0,0.15)"/>
+
+      <!-- Body -->
+      <rect x="72" y="130" width="56" height="70" rx="14" fill="#4A90D9"/>
+
+      <!-- Left leg -->
+      <rect x="76" y="195" width="20" height="55" rx="10" fill="#2C3E50"/>
+      <!-- Left shoe -->
+      <ellipse cx="86" cy="250" rx="16" ry="8" fill="#1a1a1a"/>
+
+      <!-- Right leg -->
+      <rect x="104" y="195" width="20" height="55" rx="10" fill="#2C3E50"/>
+      <!-- Right shoe -->
+      <ellipse cx="114" cy="250" rx="16" ry="8" fill="#1a1a1a"/>
+
+      <!-- Left arm (static) -->
+      <rect x="50" y="132" width="22" height="14" rx="7" fill="#4A90D9" transform="rotate(20 61 139)"/>
+      <circle cx="44" cy="148" r="10" fill="#FDBCB4"/>
+
+      <!-- Right arm + ice cream (eating animation) -->
+      <g style="transform-origin: 128px 138px; animation: eatArm 1s ease-in-out infinite;">
+        <rect x="128" y="132" width="22" height="14" rx="7" fill="#4A90D9" transform="rotate(-20 139 139)"/>
+        <!-- Hand -->
+        <circle cx="156" cy="126" r="10" fill="#FDBCB4"/>
+
+        <!-- Ice cream cone -->
+        <g transform="translate(148, 60)">
+          <!-- Cone -->
+          <polygon points="8,66 24,66 16,100" fill="#D4873B"/>
+          <!-- Cone lines -->
+          <line x1="10" y1="72" x2="22" y2="72" stroke="#B8732A" stroke-width="1.5"/>
+          <line x1="9"  y1="79" x2="23" y2="79" stroke="#B8732A" stroke-width="1.5"/>
+          <line x1="10" y1="86" x2="22" y2="86" stroke="#B8732A" stroke-width="1.5"/>
+
+          <!-- Scoop 1 (bottom – strawberry) -->
+          <circle cx="16" cy="56" r="16" fill="#FF8FAB" style="animation: wobble 1s ease-in-out infinite;"/>
+          <!-- Scoop 2 (middle – vanilla) -->
+          <circle cx="16" cy="40" r="14" fill="#FFF5D6" style="animation: wobble 1s ease-in-out infinite 0.15s;"/>
+          <!-- Scoop 3 (top – mint) -->
+          <circle cx="16" cy="26" r="12" fill="#A8E6CF" style="animation: wobble 1s ease-in-out infinite 0.3s;"/>
+
+          <!-- Drip -->
+          <rect x="23" y="56" width="5" rx="2" fill="#FF8FAB" style="animation: drip 1.5s ease-in infinite;"/>
+
+          <!-- Sprinkles -->
+          <rect x="10" y="38" width="6" height="3" rx="1.5" fill="#FF6B6B" transform="rotate(30 13 39)"/>
+          <rect x="18" y="30" width="6" height="3" rx="1.5" fill="#FFD93D" transform="rotate(-20 21 31)"/>
+          <rect x="8"  y="28" width="6" height="3" rx="1.5" fill="#6BCB77" transform="rotate(10 11 29)"/>
+        </g>
+      </g>
+
+      <!-- Neck -->
+      <rect x="90" y="118" width="20" height="16" rx="6" fill="#FDBCB4"/>
+
+      <!-- Head (with bob animation) -->
+      <g style="transform-origin: 100px 100px; animation: headBob 1s ease-in-out infinite;">
+        <!-- Head -->
+        <circle cx="100" cy="95" r="36" fill="#FDBCB4"/>
+
+        <!-- Hair -->
+        <path d="M68,85 Q72,55 100,58 Q128,55 132,85 Q120,68 100,70 Q80,68 68,85Z" fill="#3D2B1F"/>
+
+        <!-- Eyes -->
+        <circle cx="88" cy="90" r="5" fill="white"/>
+        <circle cx="112" cy="90" r="5" fill="white"/>
+        <circle cx="89" cy="91" r="3" fill="#3D2B1F"/>
+        <circle cx="113" cy="91" r="3" fill="#3D2B1F"/>
+        <!-- Eye shine -->
+        <circle cx="90" cy="89" r="1" fill="white"/>
+        <circle cx="114" cy="89" r="1" fill="white"/>
+
+        <!-- Eyebrows -->
+        <path d="M83,83 Q88,80 93,83" stroke="#3D2B1F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M107,83 Q112,80 117,83" stroke="#3D2B1F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- Happy mouth -->
+        <path d="M88,108 Q100,118 112,108" stroke="#c0666a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- Tongue licking -->
+        <ellipse cx="100" cy="112" rx="6" ry="5" fill="#FF8FAB"
+          style="animation: lick 1s ease-in-out infinite;"/>
+
+        <!-- Cheeks (blush) -->
+        <circle cx="80" cy="104" r="8" fill="rgba(255,150,150,0.35)"/>
+        <circle cx="120" cy="104" r="8" fill="rgba(255,150,150,0.35)"/>
+
+        <!-- Ear -->
+        <circle cx="64" cy="97" r="8" fill="#FDBCB4"/>
+        <circle cx="136" cy="97" r="8" fill="#FDBCB4"/>
+      </g>
+
+    </svg>
+  </div>
+
   <h1>My first Page</h1>
   <h2>yeeeee</h2>
   <p class="name">Prakhar</p>
+
 </body>
 </html>
